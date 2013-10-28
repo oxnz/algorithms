@@ -1,28 +1,46 @@
-void heap_adjust(int array[], int i, int n) {
-    int n_child;
-    int tmp;
-    for (tmp = array[i]; 2*i+1 < n; i = n_child) {
-        n_child = 2 * i + 1;
-        if (n_child < n - 1 && array[n_child+1] > array[n_child])
-            ++n_child;
-        if (tmp < array[n_child]) {
-            array[i] = array[n_child];
-            array[n_child] = tmp;
+void heap_adjust(int array[], int i, int size) {
+    int lchild = 2*i;
+    int rchild = 2*i+1;
+    int max = i;
+    if (i <= size/2) {
+        if (lchild <= size && array[lchild] > array[max])
+            max = lchild;
+        if (rchild <= size && array[rchild] > array[max])
+            max = rchild;
+        if (max != i) {
+            // swap(array[i], array[max]);
+            int tmp = array[i];
+            array[i] = array[max];
+            array[max] = tmp;
+            heap_adjust(array, max, size);
         }
-        else
-            break;
     }
 }
 
+void heap_adjust2(int array[], int i, int size) {
+    int nChild;
+    int nTmp;
+    for (nTmp = array[i]; 2*i+1 < size; i = nChild) {
+        nChild = 2*i+1;
+        if (nChild < size-1 && array[nChild+1] > array[nChild])
+            ++nChild;
+        if (nTmp < array[nChild]) {
+            array[i] = array[nChild];
+            array[nChild] = nTmp;
+        }
+        else break;
+    }
+}
+           
 void heap_sort(int array[], int n) {
     int tmp;
     for (int i = n/2-1; i >= 0; --i)
-        heap_adjust(array, i, n);
+        heap_adjust2(array, i, n);
     for (int i = n-1; i > 0; --i) {
         tmp = array[i];
         array[i] = array[0];
         array[0] = tmp;
-        heap_adjust(array, 0, i);
+        heap_adjust2(array, 0, i);
     }
 }
 
