@@ -5,8 +5,9 @@ int b[] = { 4, 99, 24, 455, 1231 };
 
 // non-recursive version
 int bs2(int l, int h, int v) {
+    int m;
 	while (l < h) {
-		int m = (l+h)/2;
+        m = (l+h) >> 2;
 		if (a[m] > v)
 			h = m;
 		else if (a[m] < v)
