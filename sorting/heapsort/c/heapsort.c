@@ -68,15 +68,41 @@ void make_heap(int a[], int n) {
 
 void heap_sort(int array[], int n) {
     int tmp;
-    //    for (int i = n/2-1; i >= 0; --i)
-    //  heap_adjust4(array, i, n);
     make_heap(array, n);
     printf("after adust\n");
     print_array(array, n);
     for (int i = n-1; i > 0; --i) {
         swap(&array[i], &array[0]);
         sift_down(array, 0, i-1);
-        //        heap_adjust4(array, 0, i);
+    }
+}
+
+int heap_find(int x, int a[], int r[], int n) {
+    int y = x;
+    int root;
+    while (a[y])
+        y = a[y];
+    root = y;
+    y = x;
+    int w;
+    while (a[y]) {
+        w = a[y];
+        a[y] = root;
+        y = w;
+    }
+    return root;
+}
+
+void heap_union(int a[], int r[], int n, int x, int y) {
+    int u = heap_find(x, a, r, n);
+    int v = heap_find(y, a, r, n);
+    if (r[u] <= r[v]) {
+        a[u] = v;
+        if (r[u] == r[v])
+            ++r[v];
+    }
+    else {
+        a[v] = u;
     }
 }
 
@@ -86,6 +112,37 @@ int main(void) {
     print_array(a, 20);
     heap_sort(a, 20);
     print_array(a, 20);
+
+    printf("union and find options:\n");
+    int b[9] = {0};
+    int r[9] = {0};
+    heap_union(b, r, 9, 0, 1);
+    heap_union(b, r, 9, 2, 3);
+    heap_union(b, r, 9, 4, 5);
+    heap_union(b, r, 9, 6, 7);
+    printf("after 4 union:\n");
+    print_array(b, 9);
+    print_array(r, 9);
+    heap_union(b, r, 9, 1, 2);
+    heap_union(b, r, 9, 7, 8);
+    heap_union(b, r, 9, 5, 7);
+    printf("after 3 union:\n");
+    print_array(b, 9);
+    print_array(r, 9);
+    heap_find(4, b, r, 9);
+    printf("after find 4:\n");
+    print_array(b, 9);
+    print_array(r, 9);
+    heap_union(b, r, 9, 3, 7);
+    printf("after uinon 3, 7:\n");
+    print_array(b, 9);
+    print_array(r, 9);
+    
+    heap_find(0, b, r, 9);
+    printf("after find 0:\n");
+    print_array(b, 9);
+    print_array(r, 9);
+    
 
     return 0;
 }
