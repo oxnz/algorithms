@@ -11,11 +11,10 @@ sub binary_search {
 	my ($low, $high) = (0, @$array - 1);
 
 	while ( $low <= $high ) {	# While the window is open
-            my $try = int( ($low+$high) / 2 );	# Try the middle element
-
-            $low = $try + 1, next if $array->[$try] lt $word; # Raise bottom
-		$high = $try - 1, next if $array->[$try] gt $word; # Lower top
-		return $try;	# We've found the word
+		my $mid = int( ($low+$high) / 2 );	# Try the middle element
+		$low = $mid + 1, next if $array->[$mid] lt $word; # Raise bottom
+		$high = $mid - 1, next if $array->[$mid] gt $word; # Lower top
+		return $mid;	# We've found the word
 	}
 	return;	# The word isn't there.
 }
