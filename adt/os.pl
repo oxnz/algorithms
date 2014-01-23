@@ -1,27 +1,29 @@
-# process
-# 		This package defines a process object.
+{
+	# process
+	# 		This package defines a process object.
 
-package process;
+	package process;
 
-# new - create a process object
-sub new {
-	my ($class, $name, $state) = @_;
-	my $self = { name=>$name, state=>$state };
-	return bless $self, $class;
+	# new - create a process object
+	sub new {
+		my ($class, $name, $state) = @_;
+		my $self = { name=>$name, state=>$state };
+		return bless $self, $class;
+	}
+
+	# link method - get or set the link to the next process
+	# 	Usage:
+	# 		$next = $proc->link;
+	# 	Or:
+	# 		$proc->link($other_proc);
+
+	sub link {
+		my $process = shift;
+		return @_ ? ($process->{link} = shift) : $process->{link};
+	}
+
+	# ... and a few other routines ...
 }
-
-# link method - get or set the link to the next process
-# 	Usage:
-# 		$next = $proc->link;
-# 	Or:
-# 		$proc->link($other_proc);
-
-sub link {
-	my $process = shift;
-	return @_ ? ($process->{link} = shift) : $process->{link};
-}
-
-# ... and a few other routines ...
 
 # Create the idle process. Its state contains a program that
 # loops forever, giving up its slice immediately each time.
