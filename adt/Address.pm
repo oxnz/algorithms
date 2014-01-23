@@ -1,4 +1,7 @@
-Package Address;
+# Address
+# 		This package defines an address object.
+
+package Address;
 
 # Create a new address. Extra arguments are stored in the object:
 # $address = new Address(name => "Wolf Blass", country => "Australia" ...
