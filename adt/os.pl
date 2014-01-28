@@ -75,6 +75,10 @@ while (1) {
 		$new_process = new process($current_process->process_info);
 		$new_process->link($current_process);
 		$pred = $pred->link($new_process);
+	} elsif ($quit_cause == $HALT) {
+		# we're quitting - first break the process chain
+		$pred->link(undef);
+		return;
 	}
 
 	# run the current process
