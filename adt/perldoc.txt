@@ -2,4 +2,4 @@ perllol (lists of lists)
 perldsc (data structure cookbook)
 perlobj (object oriented)
 perltoot(Tom's object oriented tutorial)
-
+perldiag(diagnose info)
