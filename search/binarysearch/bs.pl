@@ -10,6 +10,7 @@ my $position = binary_search_file(\*FILE, $word);
 
 if (defined $position) { print "$word occurs at position $position\n" }
 else { print "$word does not occur in $file.\n" }
+#close(FILE);
 
 sub binary_search_file {
 	my ( $file, $word ) = @_;
