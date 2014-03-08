@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use Data::Dump;
 
 sub kmpTable {
 	my ($pattern, $substring, $pos, $cnd, @table) = (@_, 2, 0, qw(-1 0));
@@ -18,7 +19,6 @@ sub kmpTable {
 			++$pos;
 		}
 	}
-	print "pattern=@$pattern, substring = @$substring, pos=$pos, cnd=$cnd, table=@table\n";
 	return \@table;
 }
 
@@ -27,7 +27,8 @@ sub kmpSearch {
 	my @pattern = split("", $pattern);
 	my @substring = split("", $substring);
 	my ($m, $i, $table) = (0, 0, kmpTable(\@pattern, \@substring));
-	print "pattern = $pattern, substring = $substring, table = @$table\n";
+	print "pattern = $pattern, substring = $substring, table = \n";
+	dd $table;
 
 	while ($m + $i < length($pattern)) {
 		if ($substring[$i] eq $pattern[$m+$i]) {
