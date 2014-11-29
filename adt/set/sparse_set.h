@@ -26,28 +26,37 @@
 
 using namespace std;
 
-class SparseDenseSet {
+class SparseSet {
 public:
-	SparseDenseSet(int n = 100) : n(0), capacity(n) {
-		dense = new int[capacity];
-		sparse = new int[capacity];
+	SparseSet(int n = 100) : n(0), c(n) {
+		dense = new int[c];
+		sparse = new int[c];
 	}
-	~SparseDenseSet() {
+	~SparseSet() {
 		n = 0;
 		delete[] dense;
 		delete[] sparse;
+	}
+	int capacity() {
+		return c;
+	}
+	int count() {
+		return n;
+	}
+	bool empty() {
+		return 0 == n;
 	}
 	void clear() {
 		n = 0;
 	}
 	bool contain(int k) {
-		if (k >= capacity || n <= 0)
+		if (k >= c || n <= 0)
 			return false;
 		int i = sparse[k];
 		return i < n && dense[i] == k;
 	}
 	bool insert(int k) {
-		if (k >= capacity || contain(k))
+		if (k >= c || contain(k))
 			return false;
 		sparse[k] = n;
 		dense[n] = k;
@@ -70,14 +79,14 @@ public:
 		}
 	}
 	void inspect(void) {
-		printf("count: %d/%d\nelems:\n\t", n, capacity);
+		printf("count: %d/%d\nelems:\n\t", n, c);
 		for (int i = 0; i < n; ++i)
 			printf("[%d]", dense[i]);
 		printf("\ndense:\n\t");
-		for (int i = 0; i < capacity; ++i)
+		for (int i = 0; i < c; ++i)
 			printf("[%d]", dense[i]);
 		printf("\nsparse:\n\t");
-		for (int i = 0; i < capacity; ++i)
+		for (int i = 0; i < c; ++i)
 			printf("[%d]", sparse[i]);
 		printf("\n");
 	}
@@ -94,41 +103,5 @@ private:
 	int *dense;
 	int *sparse;
 	int n;
-	int capacity;
+	int c;
 };
-
-int main(int argc, char *argv[]) {
-	int sep[] = {8, 9, 3, 2};
-	SparseDenseSet s(10);
-	s.inspect();
-	for (int n : sep) {
-		printf("contain %d = %s\n", n, s.contain(n) ? "yes" : "no");
-		printf("insert %d %s\n", n, s.insert(n) ? "success" : "failure");
-		printf("contain %d = %s\n", n, s.contain(n) ? "yes" : "no");
-	}
-	s.inspect();
-	for (int i = 0; i < 10; ++i) {
-		printf("contain %d = %s\n", i, s.contain(i) ? "yes" : "no");
-	}
-	s.foreach([](int n)->void * { printf("[%d]", n); return 0; });
-	putchar('\n');
-	s.remove(2);
-	s.remove(3);
-	for (int i = 0; i < 10; ++i) {
-		printf("contain %d = %s\n", i, s.contain(i) ? "yes" : "no");
-	}
-	s.clear();
-	s.inspect();
-	s.insert(3);
-	s.insert(7);
-	s.insert(4);
-	s.inspect();
-	s.xchg(3, 7);
-	printf("after swap(3, 7):\n");
-	s.inspect();
-	s.xchg(3, 4);
-	printf("after swap(3, 4):\n");
-	s.inspect();
-
-	return 0;
-}
