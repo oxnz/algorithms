@@ -48,6 +48,10 @@ benchmark tools and some utils
 * Quick Search
 * KMP String Match
 
+##Encryption
+
+* DES
+
 ##Leetcode
 
 source code for leetcode OJ
