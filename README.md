@@ -1,17 +1,15 @@
 #algorithms
 
-<hr>
-
 Commonly used algorithms
 
 ##ADT
 
 Abstract Data Types
 
-adt/
-├── heap
-├── set
-└── tree
+	adt/
+	├── heap
+	├── set
+	└── tree
 
 ##doc
 
@@ -23,26 +21,26 @@ benchmark tools and some utils
 
 ##Sort
 
-sorting/
-├── beadsort
-├── bubblesort
-├── bucketsort
-├── cocktailsort
-├── combsort
-├── countingsort
-├── gnomesort
-├── heapsort
-├── insertsort
-├── librarysort
-├── mergesort
-├── oddevensort
-├── patiencesort
-├── pogeonsort
-├── quicksort
-├── radixsort
-├── ranksort
-├── selectsort
-└── shellsort
+	sorting/
+	├── beadsort
+	├── bubblesort
+	├── bucketsort
+	├── cocktailsort
+	├── combsort
+	├── countingsort
+	├── gnomesort
+	├── heapsort
+	├── insertsort
+	├── librarysort
+	├── mergesort
+	├── oddevensort
+	├── patiencesort
+	├── pogeonsort
+	├── quicksort
+	├── radixsort
+	├── ranksort
+	├── selectsort
+	└── shellsort
 
 ##Search
 
