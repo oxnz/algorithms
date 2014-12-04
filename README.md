@@ -1,22 +1,59 @@
-algorithms
-==========
+#algorithms
+
+<hr>
 
 Commonly used algorithms
 
-Sort
-----
+##ADT
 
-###Heap Sort
+Abstract Data Types
 
-###Quick Sort
+adt/
+├── heap
+├── set
+└── tree
 
-###Select Sort
+##doc
+
+referenced papers
+
+##tools
+
+benchmark tools and some utils
+
+##Sort
+
+sorting/
+├── beadsort
+├── bubblesort
+├── bucketsort
+├── cocktailsort
+├── combsort
+├── countingsort
+├── gnomesort
+├── heapsort
+├── insertsort
+├── librarysort
+├── mergesort
+├── oddevensort
+├── patiencesort
+├── pogeonsort
+├── quicksort
+├── radixsort
+├── ranksort
+├── selectsort
+└── shellsort
 
 ##Search
 
-###Bianry Search
+* Bianry Search
+* Quick Search
+* KMP String Match
 
-###Quick Search
+##Leetcode
 
-###KMP String Match
+source code for leetcode OJ
 
+##License
+
+This project is available under the MIT license. See the LICENSE file for more info.
