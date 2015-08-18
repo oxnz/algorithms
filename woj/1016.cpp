@@ -1,13 +1,16 @@
-#include <stdio.h> 
-#include <stdlib.h> 
+#include <cstdio> 
+#include <cstdlib> 
+#include <iostream>
+
+using namespace std;
 
 #define MAXN 1010 
 
-typedef struct node { 
+typedef struct { 
     int x,y;
 } Node;
 
-Node s[MAXN],r[MAXN];   // s,r分别为升序和降序后点的信息 
+Node s[MAXN],r[MAXN];   // dot info
 int n;
 
 int cmp1(const void *a,const void *b) { 
@@ -27,26 +30,27 @@ int isym() {
     k=n/2+1;
     sum=s[0].y+r[0].y;
     for(i=0;i<k;i++) {
-        if(s[i].y+r[i].y!=sum) return(0);   // 两点不对称的情况 
+        if(s[i].y+r[i].y!=sum) return(0);   // yes, sym
 
-        if(s[i].x!=r[i].x) return(0);       // 关于y对称但是x不一样 
+        if(s[i].x!=r[i].x) return(0);       // otherwise
     }
     return 1;
 }
 
 int main() {
-    int i;
-    while(scanf("%d",&n)!=EOF) {
-        for(i=0;i<n;i++) {
-            scanf("%d%d",&s[i].x,&s[i].y);
+	while (cin >> n) {
+        for(int i=0;i<n;i++) {
+			cin >> s[i].x >> s[i].y;
             r[i]=s[i];
         }
-        qsort(s,n,sizeof(s[0]),cmp1);
-        qsort(r,n,sizeof(r[0]),cmp2);
+		size_t ss = sizeof s[0];
+		size_t sr = sizeof r[0];
+        qsort(s,n,ss,cmp1);
+        qsort(r,n,sr,cmp2);
         if (isym()==1)
-			printf("YES\n");
+			cout << "YES" << endl;
         else
-			printf("NO\n"); 
+			cout << "NO" << endl;
     }
 
     return 0;
