@@ -1,8 +1,8 @@
-#algorithms
+# Algorithms
 
 Commonly used algorithms
 
-##ADT
+## ADT
 
 Abstract Data Types
 
@@ -11,15 +11,15 @@ Abstract Data Types
 	├── set
 	└── tree
 
-##doc
+## doc
 
 referenced papers
 
-##tools
+## tools
 
 benchmark tools and some utils
 
-##Sort
+## Sort
 
 	sorting/
 	├── beadsort
@@ -42,20 +42,20 @@ benchmark tools and some utils
 	├── selectsort
 	└── shellsort
 
-##Search
+## Search
 
 * Bianry Search
 * Quick Search
 * KMP String Match
 
-##Encryption
+## Encryption
 
 * DES
 
-##Leetcode
+## Leetcode
 
 source code for leetcode OJ
 
-##License
+## License
 
 This project is available under the MIT license. See the LICENSE file for more info.
