@@ -85,9 +85,13 @@ namespace multiprocessing {
 		void abort() {
 			{ lock_type lock(m_mutex); m_cmd = command::abort; }
 			m_cond_v.notify_all();
+			join();
 		}
 		void join() {
-			stop();
+			{
+				lock_type lock(m_mutex);
+				if (m_cmd == command::run || m_cmd == command::pause) m_cmd = command::stop;
+			}
 			std::for_each(m_workers.begin(), m_workers.end(),
 						  std::mem_fn(&std::thread::join));
 			{
@@ -123,12 +127,11 @@ namespace multiprocessing {
 						return m_cmd != command::run || !m_tasks.empty();
 					});
 					switch (m_cmd) {
+						case command::run: break;
 						case command::pause: continue;
+						case command::abort: return;
 						case command::stop:
 							if (m_tasks.empty()) return;
-							break;
-						case command::abort: return;
-						default:
 							break;
 					}
 					if (m_cmd != command::run && m_tasks.empty()) return;

@@ -40,4 +40,3 @@ void test_sleep() {
 	auto duration = chrono::duration_cast<chrono::duration<double>>(t1 - t0);
 	EXPECT_TRUE(ns*n*1.0/pool.size() - duration.count() < 0.1);
 }
-

@@ -15,9 +15,8 @@ int gcd2(int p, int q) {
 	return p;
 }
 
-#include <iostream>
-int main(void) {
-    std::cout << "gcd(20, 30)=" << gcd(20, 30) << std::endl;
-    std::cout << "gcd(20, 30)=" << gcd2(20, 30) << std::endl;
-    return 0;
+#include <gtest/gtest.h>
+TEST(gcd, gcd) {
+	EXPECT_EQ(gcd(20, 30), 10) << "gcd(20, 30) != 10";
+	EXPECT_EQ(gcd2(20, 30), 10) << "gcd2(20, 30) != 10";
 }

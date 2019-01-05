@@ -7,6 +7,7 @@
  * a: 待排序数组
  * factor: 常数因子
  */
+/*
 void library_sort(int a[], int n) {
     int len = (int)((1+factor)*n);
     int *o = (int*)malloc(len*sizeof(int));
@@ -25,3 +26,4 @@ int main(void) {
 
     return 0;
 }
+*/

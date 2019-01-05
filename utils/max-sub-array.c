@@ -42,7 +42,7 @@ int ms(int a[], int n) {
 	return sum;
 }
 
-int main() {
+int xmain() {
 	int a[8] = {1, -2, 3, 10, -4, 7, 2, -5};
 	printf("max sum = %d\n", maxsum(a, 8));
 	printf("max sum = %d\n", ms(a, 8));

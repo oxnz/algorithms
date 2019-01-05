@@ -1,29 +1,8 @@
+#include <random>
 #include <iostream>
+#include <gtest/gtest.h>
 
-struct Node {
-    double element; // the data
-    Node* left; // left child
-    Node* right; // right child
-    // Node* parent; // parent
-};
-
-class Tree {
-public:
-    Tree();
-    Tree(const Tree& t);
-    ~Tree();
-
-    bool empty() const;
-    double root(); // decomposition (access functions)
-    Tree& left();
-    Tree& right();
-
-    // Tree& parent(double x);
-
-    // ... update ...
-    void insert(const double x); // compose x into a Tree
-    void remove(const double x); // decompose x from a Tree
-};
+using namespace std;
 
 template<typename RandomAccessIterator, typename Compare>
 void sift_up(RandomAccessIterator first, RandomAccessIterator last, Compare cmp, RandomAccessIterator current) {
@@ -112,36 +91,34 @@ void heap_adjust(RandomAccessIterator first, RandomAccessIterator last, RandomAc
 	heap_adjust(first, last, less<T>(), current);
 }
 
-int main() {
+TEST(heapsort, heapsort) {
 	vector<int> v;
 	v.reserve(100);
 	for (int i = 0; i < 10; ++i) {
 		v.push_back(i+1);
 		heap_push(v.begin(), v.end());
-		if (not is_heap(v.begin(), v.end())) cout << "Nah push" << endl;
+		EXPECT_TRUE(is_heap(v.begin(), v.end())) << "Nah push";
 	}
 	for (int i = 0; i < 10; ++i) {
 		v.push_back(i);
 		shuffle(v.begin(), v.end(), mt19937(2));
 		heap_make(v.begin(), v.end());
-		if (not is_heap(v.begin(), v.end())) cout << "Nah heap" << endl;
+		EXPECT_TRUE(is_heap(v.begin(), v.end())) << "Nah heap";
 		heap_sort(v.begin(), v.end());
-		if (not is_sorted(v.begin(), v.end())) cout << "Nah sorted" << endl;
+		EXPECT_TRUE(is_sorted(v.begin(), v.end())) << "Nah sorted";
 	}
 	for (int i = 0; i < 10; ++i) {
 		heap_make(v.begin(), v.end());
 		auto it = v.begin() + rand()%v.size();
 		*it = rand()%10+rand()%10;
 		heap_adjust(v.begin(), v.end(), it);
-		if (not is_heap(v.begin(), v.end())) cout << "Nah heap" << endl;
+		EXPECT_TRUE(is_heap(v.begin(), v.end())) << "Nah heap";
 	}
 	heap_make(v.begin(), v.end());
 	while (v.size() > 0) {
 		heap_pop(v.begin(), v.end());
 		v.pop_back();
-		if (not is_heap(v.begin(), v.end())) cout << "Nah pop" << endl;
+		EXPECT_TRUE(is_heap(v.begin(), v.end())) << "Nah pop";
 	}
-	cout << "END" << endl;
-	return 0;
 }
 

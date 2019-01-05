@@ -33,19 +33,15 @@ namespace {
 		~SparseSetTest() {}
 
 		static void SetUpTestCase() {
-			cout << "case up" << endl;
 		}
 
 		static void TearDownTestCase() {
-			cout << "case down" << endl;
 		}
 
 		void SetUp() {
-			cout << "setup" << endl;
 		}
 
 		void TearDown() {
-			cout << "teardown" << endl;
 		}
 		SparseSet s;
 	};
@@ -110,9 +106,4 @@ int foo() {
 	s.inspect();
 
 	return 0;
-}
-
-int main(int argc, char *argv[]) {
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
 }

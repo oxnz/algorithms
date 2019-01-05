@@ -87,7 +87,28 @@ void rotate(Node *p) {
 	}
 }
 
-TEST(traverse, traverse) {
+size_t depth(Node *p) {
+	return nullptr == p ? 0 : 1 + max(depth(p->left), depth(p->right));
+}
+
+bool is_symmetric(const Node* lhs, const Node* rhs) {
+	if ((nullptr == lhs && nullptr != rhs) || (nullptr != lhs && nullptr == rhs)) return false;
+	if ((nullptr == lhs && nullptr == rhs) || lhs == rhs) return true;
+	return lhs->value == rhs->value && is_symmetric(lhs->left, rhs->right) && is_symmetric(lhs->right, rhs->left);
+}
+
+bool is_symmetric(const Node *p) {
+	if (nullptr == p) return true;
+	return is_symmetric(p->left, p->right);
+}
+
+bool has_path_sum(const Node *p, int v) { // path: root to leaf
+	if (nullptr == p) return false;
+	if (nullptr == p->left && nullptr == p->right) return v == p->value;
+	return has_path_sum(p->left, v-p->value) || has_path_sum(p->right, v-p->value);
+}
+
+TEST(tree, traverse) {
 	Node nodes[]{1,2,3,4,5,6};
 	nodes[0].left = &nodes[1];
 	nodes[0].right = &nodes[2];
@@ -125,6 +146,46 @@ TEST(tree, rotate) {
 	rotate(root);
 	EXPECT_EQ(root->left, &nodes[2]);
 	EXPECT_EQ(root->right, &nodes[1]);
+}
+
+TEST(tree, depth) {
+	EXPECT_EQ(0, depth(nullptr));
+	Node nodes[]{1, 2, 3};
+	EXPECT_EQ(1, depth(&nodes[0]));
+	nodes[0].left = &nodes[1];
+	EXPECT_EQ(2, depth(&nodes[0]));
+	nodes[0].right = &nodes[2];
+	Node *root = &nodes[0];
+	EXPECT_EQ(2, depth(root));
+}
+
+TEST(tree, is_symmetric) {
+	EXPECT_TRUE(is_symmetric(nullptr));
+	EXPECT_TRUE(is_symmetric(nullptr, nullptr));
+	Node nodes[]{1, 2, 3};
+	Node *root = &nodes[0];
+	EXPECT_TRUE(is_symmetric(root));
+	EXPECT_TRUE(is_symmetric(root, root));
+	root->left = &nodes[1];
+	EXPECT_FALSE(is_symmetric(root));
+	root->right = &nodes[2];
+	EXPECT_FALSE(is_symmetric(root));
+	root->right = root->left;
+	EXPECT_TRUE(is_symmetric(root));
+}
+
+TEST(tree, has_path_sum) {
+	EXPECT_FALSE(has_path_sum(nullptr, 0));
+	Node nodes[]{1, 2, 3};
+	Node *root = &nodes[0];
+	EXPECT_FALSE(has_path_sum(root, 3));
+	EXPECT_TRUE(has_path_sum(root, 1));
+	root->left = &nodes[1];
+	EXPECT_TRUE(has_path_sum(root, 3));
+	EXPECT_FALSE(has_path_sum(root, 4));
+	root->right = &nodes[2];
+	EXPECT_TRUE(has_path_sum(root, 3));
+	EXPECT_TRUE(has_path_sum(root, 4));
 }
 
 /*

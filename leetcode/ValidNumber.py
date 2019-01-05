@@ -32,34 +32,32 @@ class Solution:
         l = len(s)
         if not l:
             return False
-        if s[-1] == '.':
-            if l == 1:
-                return False
-            s = s[:-1]
-        if s[0] in '+-':
+        if s[0] == '-' or s[0] == '+':
             s = s[1:]
-        if s[0] == '.':
+        if len(s) == 0:
+            return False
+        HEX = 0
+        DEC = 1
+        OCT = 2
+        valid = False
+        if s.startswith('0x'):
+            t = HEX
+            s = s[2:]
+        elif s.startswith('0'):
+            t = OCT
             s = s[1:]
-        if s.startswith('0x'): # hex
-            if l == 2:
-                return False
-            return len(set(s[2:]) | set('abcdef0123456789')) == 16
-        if s[-1] == 'e':
+        else:
+            t = DEC
+        if len(s) == 0:
+            return False
+        sets = [set('.0123456789abcdef'), set('.0123456789e'), set('.01234567e')]
+        if len(set(s) | sets[t]) != len(sets[t]):
             return False
         if s.count('e') > 1:
             return False
         if s.count('.') > 1:
             return False
-        if s.startswith('0'):
-            if l == 1:
-                return True
-            return len(set(s[1:]) | set('.01234567')) == 9
-        if '.' in s:
-            return len(set(s) | set('.0123456789')) == 11
-        if s[0] == 'e':
-            return False
-        s = s.replace('e', '')
-        return len(set(s) | set('0123456789')) == 10
+        return True
 
 import unittest
 
@@ -80,11 +78,14 @@ class TestRegexpMatch(unittest.TestCase):
             ['09', False],
             ['3.', True],
             ['..', False],
+            ['3', True],
         ]:
             try:
                 self.assertEqual(v, self._isNumber(s))
             except AssertionError as e:
                 print 'failed for: ', s, e
+            except Exception as e:
+                print 'exec fail:', s, e
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,7 +11,7 @@ void pa(int a[], int n) {
 	putchar('\n');
 }
 
-int ms(int a[], int an, int b[], int bn, int c[]) {
+void ms(int a[], int an, int b[], int bn, int c[]) {
 	int i = 0; int n = an + bn;
 	int ai = 0;
 	int bi = 0;

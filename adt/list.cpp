@@ -56,7 +56,6 @@ int test_list() {
 	ForwardListNode<int> list(0);
 	ForwardListNode<int> nodes[10]{1,2,3,4,5,6,7,8,9,10};
 	for (int i = 0; i < 10; ++i) {
-		nodes[i].value = i+1;
 		list_insert(list, nodes[i]);
 	}
 

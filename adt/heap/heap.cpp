@@ -19,4 +19,4 @@ private:
     double* array;
     int array_size;
     int heap_size;
-    
+};

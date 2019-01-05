@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main() {
+int echo() {
     cout << "largest float = " << numeric_limits<float>::max() << endl
          << "smallest float = " << numeric_limits<float>::min() << endl
          << "min exponent in library = " << numeric_limits<float>::min_exponent
