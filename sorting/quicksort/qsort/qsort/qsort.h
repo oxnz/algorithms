@@ -11,7 +11,12 @@
 
 #include <stdio.h>
 
-int qsort_s(void *base, size_t nelem, size_t es, int (*compar)(const void *,
+int
+qsort_s2(void *base, size_t nelem, size_t es, int (*compar)(const void *,
                                                                 const void *));
+
+int
+qsort_s3(void *base, size_t nelem, size_t es, int (*compar)(const void *,
+                                                            const void *));
 
 #endif /* qsort_h */

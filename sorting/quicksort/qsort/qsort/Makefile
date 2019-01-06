@@ -1,3 +1,3 @@
-CFLAGS := -O3 -foptimize-sibling-calls
-qsort: qsort.c main.c
+CFLAGS := -Ofast
+qsort: main.c qsort.c qsort_lib.c
 	cc -o $@ ${CFLAGS} $^

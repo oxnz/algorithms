@@ -53,7 +53,8 @@ namespace multiprocessing {
 		using lock_type = std::unique_lock<std::mutex>;
 	public:
 		thread_pool(size_type nworker = std::thread::hardware_concurrency())
-		: m_workers(), m_tasks(), m_mutex(), m_cmd(command::run), m_cond_v() {
+        : m_tasks(), m_mutex(), m_cond_v(), m_workers(), m_cmd(command::run)
+        {
 			if (0 == nworker) nworker = std::thread::hardware_concurrency();
 			m_workers.reserve(nworker);
 			try {
@@ -92,6 +93,7 @@ namespace multiprocessing {
 				lock_type lock(m_mutex);
 				if (m_cmd == command::run || m_cmd == command::pause) m_cmd = command::stop;
 			}
+			m_cond_v.notify_all();
 			std::for_each(m_workers.begin(), m_workers.end(),
 						  std::mem_fn(&std::thread::join));
 			{

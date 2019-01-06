@@ -22,8 +22,9 @@ TEST(thread_pool, square) {
 	vector<future<int>> rv;
 	iota(v.begin(), v.end(), 0);
 	auto squre = [](int i) { return i*i; };
-	for (auto i : v) rv.emplace_back(pool.emplace(squre, v[i]));
-	for (auto i = 0; i < v.size(); ++i)
+    for (auto i : v)
+        rv.emplace_back(pool.emplace(squre, i));
+    for (size_t i = 0; i < v.size(); ++i)
 		EXPECT_EQ(squre(v[i]), rv[i].get());
 }
 
@@ -34,7 +35,7 @@ void test_sleep() {
 	size_t ns = 1;
 	auto msleep = [](size_t n) { std::this_thread::sleep_for(std::chrono::milliseconds(n*1000)); };
 	auto t0 = chrono::steady_clock::now();
-	for (int i = 0; i < n; ++i) pool.emplace(msleep, ns);
+    for (size_t i = 0; i < n; ++i) pool.emplace(msleep, ns);
 	pool.join();
 	auto t1 = chrono::steady_clock::now();
 	auto duration = chrono::duration_cast<chrono::duration<double>>(t1 - t0);

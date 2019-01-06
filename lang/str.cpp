@@ -18,7 +18,7 @@ TEST(str, str) {
 	str s1("hello"), s2("world"), s0(""), s;
 	str s3 = "hello";
 	EXPECT_EQ(5, s1.size()) << "invalid size";
-	EXPECT_EQ(0, s.size()) << "invalid size";
+    EXPECT_EQ(s.size(), 0) << "invalid size";
 	EXPECT_EQ(s0.size(), s.size()) << "invalid size";
 	EXPECT_EQ(s1, s3) << "ne";
 	EXPECT_EQ(s1[0], 'h') << "ne";

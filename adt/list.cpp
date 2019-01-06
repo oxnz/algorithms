@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include "adt.h"
+#include <gtest/gtest.h>
 
 using namespace std;
 
@@ -68,4 +69,33 @@ int test_list() {
 	echo(reverse(p));
 
 	return 0;
+}
+
+template <typename T>
+ForwardListNode<T>* reverse2(ForwardListNode<T>* head) {
+	if (nullptr == head || nullptr == head->next) return head;
+	ForwardListNode<T>* p = head->next;
+	ForwardListNode<T>* next = p->next;
+	p->next = head;
+	head->next = reverse2(next);
+	return p;
+}
+
+TEST(list, reverse2) {
+	using Node = ForwardListNode<int>;
+	Node nodes[5] {1, 2, 3, 4, 5};
+	int expected[] {2, 1, 4, 3, 5};
+	for (int i = 0; i < 4; ++i) {
+		nodes[i].next = &nodes[i+1];
+	}
+	EXPECT_TRUE(nodes[1].next == &nodes[2]);
+	EXPECT_TRUE(nodes[4].next == nullptr);
+	Node *lst = reverse2<int>(&nodes[0]);
+	int i = 0;
+	for (Node* p = lst; p; p = p->next) {
+		EXPECT_EQ(expected[i++], p->value);
+	}
+	EXPECT_EQ(i, 5);
+	lst = nullptr;
+	EXPECT_EQ(nullptr, reverse2<int>(lst));
 }
