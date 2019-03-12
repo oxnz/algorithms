@@ -3,7 +3,10 @@ project(mp)
 set(CMAKE_CXX_STANDARD 14)
 link_directories(/usr/local/lib)
 include_directories(/usr/local/include)
-add_executable(${PROJECT_NAME} "thread_pool.cpp")
+add_executable(${PROJECT_NAME}
+	"thread_pool.cpp"
+	"pi.cpp"
+	)
 target_link_libraries(${PROJECT_NAME} pthread)
 target_link_libraries(${PROJECT_NAME} gtest)
 target_link_libraries(${PROJECT_NAME} gmock)
