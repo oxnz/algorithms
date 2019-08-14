@@ -56,6 +56,14 @@ benchmark tools and some utils
 
 source code for leetcode OJ
 
+## Build
+
+```shell
+mkdir build
+cd build
+cmake -G Xcode ..
+```
+
 ## License
 
 This project is available under the MIT license. See the LICENSE file for more info.
