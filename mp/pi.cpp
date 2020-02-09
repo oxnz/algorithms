@@ -7,7 +7,7 @@
 //
 
 #include <random>
-#include <omp.h>
+//#include <omp.h>
 #include <gtest/gtest.h>
 #include "pi.hpp"
 

@@ -15,6 +15,8 @@
 #include <queue>
 #include <mutex>
 #include <iostream>
+#include <functional>
+#include <algorithm>
 
 namespace multiprocessing {
 	template <typename T>

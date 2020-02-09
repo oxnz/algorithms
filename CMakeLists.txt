@@ -1,14 +1,17 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.10.0)
 project(algorithms)
-set(CMAKE_CXX_STANDARD 14)
+
+enable_testing()
+find_package(GTest REQUIRED)
+include(GoogleTest)
+
 link_directories(/usr/local/lib)
-include_directories(/usr/local/include)
-add_executable(${PROJECT_NAME} "main.cpp")
-target_link_libraries(${PROJECT_NAME} pthread)
-target_link_libraries(${PROJECT_NAME} gtest)
-target_link_libraries(${PROJECT_NAME} gmock)
-target_link_libraries(${PROJECT_NAME} benchmark)
+
 add_subdirectory(lang)
 add_subdirectory(adt)
 add_subdirectory(exp)
 add_subdirectory(mp)
+
+include_directories(/usr/local/include
+${PROJECT_SOURCE_DIR}/inc
+)
