@@ -37,3 +37,39 @@ TEST(find_any_peak, find_any_peak) {
 	EXPECT_EQ(find_any_peak(v3), 0);
 	EXPECT_THROW(find_any_peak(v0), invalid_argument);
 }
+
+TEST(array, empty) {
+    m::array<int> arr(0);
+    EXPECT_TRUE(arr.empty());
+    EXPECT_EQ(arr.size(), 0);
+}
+
+TEST(array, integer) {
+    size_t n = 1024;
+    m::array<int> arr(n);
+    EXPECT_FALSE(arr.empty());
+    EXPECT_EQ(arr.size(), n);
+}
+
+TEST(array, access) {
+    size_t n = 10;
+    m::array<int> arr(n);
+    for (size_t i = 0; i < n; ++i) {
+        arr[i] = i;
+        EXPECT_EQ(arr[i], i);
+    }
+}
+
+TEST(array, iter) {
+    size_t n = 10;
+    m::array<int> arr(n);
+    for (size_t i = 0; i < n; ++i)
+        arr[i] = i;
+    size_t i = 0;
+    for (auto it = arr.begin(); it != arr.end(); ++it)
+        EXPECT_EQ(*it, i++);
+    EXPECT_EQ(i, n);
+    for (auto it = arr.rbegin(); it != arr.rend(); ++it)
+        EXPECT_EQ(*it, --i);
+    EXPECT_EQ(i, 0);
+}

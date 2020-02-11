@@ -1,6 +1,10 @@
 project(adt)
 
 add_executable(${PROJECT_NAME}
+        "raw.cpp"
+        "opt.cpp"
+        "algo.cpp"
+        "bitvec.cpp"
 	"tree.cpp"
 	"heap.cpp"
 	"arr.cpp"

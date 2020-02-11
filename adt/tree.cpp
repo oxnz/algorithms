@@ -3,6 +3,7 @@
 #include <queue>
 
 #include "adt.h"
+#include "tree.h"
 
 #include <gtest/gtest.h>
 
@@ -338,3 +339,10 @@ void post_order2(TreeNode* root) {
 	}
 }
 */
+
+TEST(binary_tree, insert) {
+    binary_tree<int> t;
+    for (int i = 0; i < 10; ++i)
+        t.insert(i);
+    EXPECT_EQ(t.size(), 10);
+}

@@ -26,10 +26,7 @@
 #include <iterator>
 #include <utility>
 
-#define __NZ_NAMESPACE_BEGIN namespace nz {
-#define __NZ_NAMESPACE_END }
-
-__NZ_NAMESPACE_BEGIN
+namespace m {
 
 /*
  * Non-modifying sequence operations
@@ -187,6 +184,6 @@ std::pair<ForwardIterator, ForwardIterator> minmax_element(
  * Other
  */
 
-__NZ_NAMESPACE_END
+}
 
 #endif//_ALGORITHM_H_

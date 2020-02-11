@@ -20,82 +20,52 @@
  *
  */
 
-#include <iostream>
-#include "adt.h"
 #include <gtest/gtest.h>
+#include "list.h"
 
-using namespace std;
-
-template <typename T>
-ForwardListNode<T>* reverse(ForwardListNode<T> *head) {
-	if (nullptr == head) return head;
-	typedef ForwardListNode<T> Node;
-	Node *pre = head;
-	Node *p = pre->next;
-	Node *nxt;
-	while (nullptr != p) {
-		nxt = p->next;
-		p->next = pre;
-		pre = p;
-		p = nxt;
-	}
-	head->next = nullptr;
-	return pre;
+TEST(list, push_back) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.push_back(i);
+        EXPECT_EQ(v.back(), i);
+    }
+    EXPECT_EQ(v.size(), n);
 }
 
-template <typename T>
-void list_insert(ForwardListNode<T>& list, ForwardListNode<T>& node) {
-	node.next = list.next;
-	list.next = &node;
+TEST(list, push_front) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.push_front(i);
+        EXPECT_EQ(v.front(), i);
+    }
+    EXPECT_EQ(v.size(), n);
 }
 
-template <typename T>
-void list_erase(ForwardListNode<T>& list, ForwardListNode<T>* p) {
+TEST(list, insert) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.insert(v.end(), i);
+        EXPECT_EQ(v.back(), i);
+    }
 }
 
-int test_list() {
-	ForwardListNode<int> list(0);
-	ForwardListNode<int> nodes[10]{1,2,3,4,5,6,7,8,9,10};
-	for (int i = 0; i < 10; ++i) {
-		list_insert(list, nodes[i]);
-	}
-
-	echo(&list);
-	ForwardListNode<int> *p = reverse(&list);
-	echo(p);
-	list_erase(list, &nodes[4]);
-	list_erase(list, &nodes[6]);
-	list_erase(list, &nodes[8]);
-	echo(reverse(p));
-
-	return 0;
+TEST(list, erase) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) v.push_back(i);
+    for (int i = 0; i < n; ++i) v.erase(v.begin());
+    EXPECT_EQ(v.size(), 0);
 }
 
-template <typename T>
-ForwardListNode<T>* reverse2(ForwardListNode<T>* head) {
-	if (nullptr == head || nullptr == head->next) return head;
-	ForwardListNode<T>* p = head->next;
-	ForwardListNode<T>* next = p->next;
-	p->next = head;
-	head->next = reverse2(next);
-	return p;
-}
-
-TEST(list, reverse2) {
-	using Node = ForwardListNode<int>;
-	Node nodes[5] {1, 2, 3, 4, 5};
-	int expected[] {2, 1, 4, 3, 5};
-	for (int i = 0; i < 4; ++i) {
-		nodes[i].next = &nodes[i+1];
-	}
-	EXPECT_TRUE(nodes[1].next == &nodes[2]);
-	EXPECT_TRUE(nodes[4].next == nullptr);
-	Node *lst = reverse2<int>(&nodes[0]);
-	int i = 0;
-	for (Node* p = lst; p; p = p->next) {
-		EXPECT_EQ(expected[i++], p->value);
-	}
-	EXPECT_EQ(i, 5);
-	lst = nullptr;
-	EXPECT_EQ(nullptr, reverse2<int>(lst));
+TEST(list, r_iter) {
+    return;
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.push_back(i);
+        EXPECT_EQ(*(v.crbegin()), i);
+    }
 }

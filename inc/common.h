@@ -10,17 +10,17 @@
 #include <forward_list>
 #include <utility>
 
-#include <gtest/gtest.h>
-
-using namespace std;
+namespace m::utility {
 
 template<typename ForwardIterator>
 void echo(ForwardIterator first, ForwardIterator last) {
-	std::copy(first, last, std::ostream_iterator<typename iterator_traits<ForwardIterator>::value_type>(std::cout, ", "));
+    std::copy(first, last, std::ostream_iterator<typename std::iterator_traits<ForwardIterator>::value_type>(std::cout, ", "));
 	std::cout << "\n";
 }
 
 template<typename Container>
 void echo(Container container) {
 	echo(container.begin(), container.end());
+}
+
 }
