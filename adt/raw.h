@@ -27,6 +27,7 @@ public:
 
     bool empty() const { return m_raw; }
     void clear() { if (!empty()) __allocator_traits::destroy(m_allocator, (pointer)std::addressof(m_store)); }
+    explicit operator bool() const { return !empty(); }
     pointer operator->() { return std::addressof(m_store); }
     reference operator*() { return *operator->(); }
 

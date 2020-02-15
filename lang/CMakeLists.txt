@@ -1,6 +1,10 @@
 project(lang)
 
 add_executable(${PROJECT_NAME}
+    "assert.cpp"
+    "ipv4_addr.cpp"
+    "uri.cpp"
+    "scope.cpp"
     "mem.cpp"
 	"concept.cpp"
 	"str.cpp"

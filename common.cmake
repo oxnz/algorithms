@@ -13,4 +13,3 @@ if (APPLE)
     set(ENV{PATH} "$ENV{PATH}:/opt/local/bin")
 endif()
 
-message(STATUS ${PROJECT_NAME})

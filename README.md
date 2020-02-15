@@ -59,9 +59,10 @@ source code for leetcode OJ
 ## Build
 
 ```shell
-mkdir build
-cd build
+mkdir _build
+cd _build
 cmake -G Xcode ..
+cmake .. -DCMAKE_INSTALL_PREFIX=../_install
 ```
 
 ## License
