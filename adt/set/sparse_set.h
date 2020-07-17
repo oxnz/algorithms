@@ -22,86 +22,72 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 #include <algorithm>
 
 using namespace std;
 
+/**
+ * @brief The SparseSet class
+ * @ref https://programmingpraxis.com/2012/03/09/sparse-sets/
+ */
 class SparseSet {
 public:
-	SparseSet(int n = 100) : n(0), c(n) {
-		dense = new int[c];
-		sparse = new int[c];
+    SparseSet(size_t n = 100) : m_sparse(n) {
 	}
 	~SparseSet() {
-		n = 0;
-		delete[] dense;
-		delete[] sparse;
 	}
-	int capacity() {
-		return c;
+    size_t capacity() const {
+        return m_sparse.size();
 	}
-	int count() {
-		return n;
+    size_t count() const {
+        return m_dense.size();
 	}
-	bool empty() {
-		return 0 == n;
+    bool empty() const {
+        return 0 == count();
 	}
-	void clear() {
-		n = 0;
+    void clear() {
+        m_dense.clear();
 	}
-	bool contain(int k) {
-		if (k >= c || n <= 0)
+    bool contain(size_t k) const {
+        if (k < m_sparse.size())
+            return m_sparse[k] < capacity() && m_dense[m_sparse[k]] == k;
+        return false;
+	}
+    bool insert(size_t k) {
+        if (k >= capacity() || contain(k))
 			return false;
-		int i = sparse[k];
-		return i < n && dense[i] == k;
-	}
-	bool insert(int k) {
-		if (k >= c || contain(k))
-			return false;
-		sparse[k] = n;
-		dense[n] = k;
-		++n;
+        m_sparse[k] = m_dense.size();
+        m_dense.push_back(k);
 		return true;
 	}
-	bool remove(int k) {
-		if (contain(k)) {
-			--n;
-			int topval = dense[n];
-			if (k != topval)
-				xchg(k, topval);
-			return true;
-		}
-		return false;
+    bool remove(size_t k) {
+        if (!contain(k)) return false;
+        xchg(k, m_dense.back());
+        m_dense.pop_back();
+        return true;
 	}
-	void foreach(void *(*func)(int)) {
-		for (int i = 0; i < n; ++i) {
-			func(dense[i]);
-		}
+    void foreach(void *(*func)(size_t)) {
+        for (int i = 0; i < count(); ++i)
+            func(m_dense[i]);
 	}
 	void inspect(void) {
-		printf("count: %d/%d\nelems:\n\t", n, c);
-		for (int i = 0; i < n; ++i)
-			printf("[%d]", dense[i]);
-		printf("\ndense:\n\t");
-		for (int i = 0; i < c; ++i)
-			printf("[%d]", dense[i]);
-		printf("\nsparse:\n\t");
-		for (int i = 0; i < c; ++i)
-			printf("[%d]", sparse[i]);
+        printf("count: %d/%d\nelems:\n\t", count(), capacity());
+        for (int i = 0; i < count(); ++i)
+            printf("[%d]", m_dense[i]);
+        printf("\sparse:\n\t");
+        for (int i = 0; i < capacity(); ++i)
+            printf("[%d]", m_sparse[i]);
 		printf("\n");
 	}
 //private:
-	void xchg(int a, int b) {
-		if (contain(a) && contain(b) && a != b) {
-			int i = sparse[a];
-			int j = sparse[b];
-			swap(sparse[a], sparse[b]);
-			swap(dense[i], dense[j]);
+    void xchg(size_t a, size_t b) {
+        if (a != b && contain(a) && contain(b)) {
+            swap(m_sparse[a], m_sparse[b]);
+            swap(m_dense[m_sparse[a]], m_dense[m_sparse[b]]);
 		}
 	}
 private:
-	int *dense;
-	int *sparse;
-	int n;
-	int c;
+    std::vector<size_t> m_dense;
+    std::vector<size_t> m_sparse;
 };
