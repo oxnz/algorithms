@@ -13,4 +13,19 @@
 #include <atomic>
 #include <thread>
 
+namespace mp {
+	class spinlock_mutex {
+		std::atomic_flag m_flag;
+	public:
+		spinlock_mutex() : m_flag(ATOMIC_FLAG_INIT) {}
+		void lock() {
+			while (m_flag.test_and_set(std::memory_order_acquire))
+				;
+		}
+		void unlock() {
+			m_flag.clear(std::memory_order_release);
+		}
+	};
+}
+
 #endif /* parallel_hpp */

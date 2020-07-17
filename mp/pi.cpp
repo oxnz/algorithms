@@ -7,7 +7,6 @@
 //
 
 #include <random>
-#include <omp.h>
 #include <gtest/gtest.h>
 #include "pi.hpp"
 
@@ -29,18 +28,16 @@ double openmp_pi(size_t nloop) {
     const size_t nbatch = 1<<3;
     nloop /= nbatch;
     double pi = 0.0;
-#pragma omp parallel for shared(nloop, nbatch) reduction(+:pi)
+#pragma omp parallel for shared(nloop) reduction(+:pi)
     for (size_t i = 0; i < nbatch; ++i)
         pi += sequence_pi(nloop);
     return pi/nbatch;
 }
 
 TEST(sequence_pi, sequence_pi) {
-	auto pi = sequence_pi(1<<25);
-	cout << (1<<20) << ":  " << pi << "\n"; // 4291 ms
+    auto pi = sequence_pi(1<<20);
 }
 
 TEST(openmp_pi, openmp_pi) {
-	auto pi = openmp_pi(1<<25);
-	cout << (1<<20) << ":  " << pi << "\n"; // 4291 ms
+    auto pi = openmp_pi(1<<20);
 }
