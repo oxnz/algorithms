@@ -7,6 +7,7 @@
 //
 
 #include "str.hpp"
+#include "../adt/adt.hpp"
 
 #include <vector>
 
@@ -37,10 +38,20 @@ TEST(str, str) {
 	EXPECT_TRUE(s1.contains("llo")) << "contains";
 	EXPECT_FALSE(s1.contains("Hell")) << "contains";
 	EXPECT_TRUE(s1.contains("Hell", str::case_insensitive)) << "contains";
-	s1 = s1;
+    str* ps1 = &s1;
+    s1 = *ps1;
 	EXPECT_EQ(s1, "hello") << "self assignment";
 	swap(s1, s2);
 	EXPECT_EQ(s1, "world") << "swap";
 	str s6 = std::move(s1);
 	EXPECT_TRUE(s1.empty()) << "move";
+}
+
+TEST(str, split) {
+	string s("hello"), delim("ll");
+	vector<string> v;
+	split(s, delim, back_inserter(v));
+    EXPECT_EQ(2, v.size());
+    EXPECT_EQ("he", v[0]);
+    EXPECT_EQ("o", v[1]);
 }
