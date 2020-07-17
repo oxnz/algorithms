@@ -24,29 +24,27 @@
 
 #include <iostream>
 #include <vector>
+#include <set>
 #include <string>
 
 class Graph {
 public:
     Graph() : m_V(0), m_E(0) {}
-    std::vector<int> adj(int v) const {
-        return m_adj[v];
+    std::set<int> adj(int v) const {
+        return m_adj[static_cast<size_t>(v)];
     }
     void addEdge(int v, int w) {
-        m_adj[v].push_back(w);
-        m_adj[w].push_back(v);
+        m_adj[static_cast<size_t>(v)].insert(w);
+        m_adj[static_cast<size_t>(w)].insert(v);
     }
-    int degree(int v) {
-        int deg = 0;
-        for (int w : adj(v))
-            ++deg;
-        return deg;
+    size_t degree(int v) {
+        return adj(v).size();
     }
-    int maxDegree() {
-        int max = 0;
+    size_t maxDegree() {
+        size_t d = 0;
         for (int v = 0; v < m_V; ++v)
-            max = std::max(degree(v), max);
-        return max;
+            d = std::max(degree(v), d);
+        return d;
     }
     double avgDegree() {
         return 2.0 * m_E / m_V;
@@ -59,6 +57,21 @@ public:
                     ++n;
         return n/2;
     }
+
+    /**
+    * method 1: DFS
+    * method 2: Disjoint Set
+    */
+//    bool has_cycle() const {
+//        disjoint_set dj(m_V);
+//        for (edge : edges) {
+//            auto p = dj.find(edge.first);
+//            auto q = dj.find(edge.second);
+//            if (p == q) return true;
+//            dj.connect(p, q);
+//        }
+//        return false;
+//    }
     int V() const { return m_V; }
     int E() const { return m_E; }
     friend std::istream &operator>>(std::istream &is, Graph &g);
@@ -66,7 +79,31 @@ public:
 private:
     int m_V;
     int m_E;
-    std::vector<std::vector<int>> m_adj;
+    std::vector<std::set<int>> m_adj;
+};
+
+/**
+ * @brief The Bigraph class
+ * ref: https://algorithms.tutorialhorizon.com/introduction-to-bipartite-graphs-or-bigraphs/
+ */
+class Bigraph {
+public:
+    void add_edge(int u, int v) {
+        m.insert({u, v});
+        m.insert({v, u});
+        v.insert(u);
+        v.insert(v);
+    }
+    bool is_bigraph() const {
+        if (v.empty()) return true;
+        unordered_map<int, int> color;
+        for (auto i : v) {
+            if (color.count(i) > 0) continue;
+        }
+    }
+private:
+    unordered_multimap<int, int> m;
+    unordered_set<int> v;
 };
 
 #endif /* graph_hpp */
