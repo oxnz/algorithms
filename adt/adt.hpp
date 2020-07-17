@@ -12,34 +12,18 @@
 #include <iostream>
 #include <algorithm>
 
-template<typename T>
-struct TreeNode {
-	TreeNode *left;
-	TreeNode *right;
-	T value;
-	TreeNode(T v) : left(nullptr), right(nullptr), value(v) {}
-};
-
-template<typename T>
-struct ListNode {
-	ListNode *prev;
-	ListNode *next;
-	T value;
-	ListNode() : prev(nullptr), next(nullptr) {}
-};
-
-template<typename T>
-struct ForwardListNode {
-	ForwardListNode *next;
-	T value;
-	ForwardListNode(T v) : next(nullptr), value(v) {}
-};
+#include "list.hpp"
+#include "queue.hpp"
+#include "stack.hpp"
+#include "heap.hpp"
+#include "hash.hpp"
+#include "tree.hpp"
 
 template<typename ForwardIterator>
 void echo(ForwardIterator first, ForwardIterator last) {
 	std::copy(first, last,
 			  std::ostream_iterator<typename std::iterator_traits<ForwardIterator>::value_type>(std::cout, ", "));
-	std::cout << std::endl;
+	std::cout << "\n";
 }
 
 template<typename Container>
