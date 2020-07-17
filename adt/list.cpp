@@ -21,64 +21,28 @@
  */
 
 #include <iostream>
-#include "adt.h"
+#include "adt.hpp"
 #include <gtest/gtest.h>
 
-using namespace std;
+using namespace list;
 
-template <typename T>
-ForwardListNode<T>* reverse(ForwardListNode<T> *head) {
-	if (nullptr == head) return head;
-	typedef ForwardListNode<T> Node;
-	Node *pre = head;
-	Node *p = pre->next;
-	Node *nxt;
-	while (nullptr != p) {
-		nxt = p->next;
-		p->next = pre;
-		pre = p;
-		p = nxt;
-	}
-	head->next = nullptr;
-	return pre;
-}
+int test_reverse() {
+    ForwardListNode<int> list(0);
+    ForwardListNode<int> nodes[10]{1,2,3,4,5,6,7,8,9,10};
+    for (int i = 0; i < 10; ++i) {
+        list::list_insert(list, nodes[i]);
+    }
 
-template <typename T>
-void list_insert(ForwardListNode<T>& list, ForwardListNode<T>& node) {
-	node.next = list.next;
-	list.next = &node;
-}
+    echo(&list);
+    ForwardListNode<int> *p = reverse(&list);
+    echo(p);
+    echo(reverse_n(p, 3));
+    list_erase(list, &nodes[4]);
+    list_erase(list, &nodes[6]);
+    list_erase(list, &nodes[8]);
+    echo(reverse(p));
 
-template <typename T>
-void list_erase(ForwardListNode<T>& list, ForwardListNode<T>* p) {
-}
-
-int test_list() {
-	ForwardListNode<int> list(0);
-	ForwardListNode<int> nodes[10]{1,2,3,4,5,6,7,8,9,10};
-	for (int i = 0; i < 10; ++i) {
-		list_insert(list, nodes[i]);
-	}
-
-	echo(&list);
-	ForwardListNode<int> *p = reverse(&list);
-	echo(p);
-	list_erase(list, &nodes[4]);
-	list_erase(list, &nodes[6]);
-	list_erase(list, &nodes[8]);
-	echo(reverse(p));
-
-	return 0;
-}
-
-template <typename T>
-ForwardListNode<T>* reverse2(ForwardListNode<T>* head) {
-	if (nullptr == head || nullptr == head->next) return head;
-	ForwardListNode<T>* p = head->next;
-	ForwardListNode<T>* next = p->next;
-	p->next = head;
-	head->next = reverse2(next);
-	return p;
+    return 0;
 }
 
 TEST(list, reverse2) {
@@ -90,7 +54,7 @@ TEST(list, reverse2) {
 	}
 	EXPECT_TRUE(nodes[1].next == &nodes[2]);
 	EXPECT_TRUE(nodes[4].next == nullptr);
-	Node *lst = reverse2<int>(&nodes[0]);
+	Node *lst = list::reverse2<int>(&nodes[0]);
 	int i = 0;
 	for (Node* p = lst; p; p = p->next) {
 		EXPECT_EQ(expected[i++], p->value);
@@ -98,4 +62,20 @@ TEST(list, reverse2) {
 	EXPECT_EQ(i, 5);
 	lst = nullptr;
 	EXPECT_EQ(nullptr, reverse2<int>(lst));
+}
+
+TEST(list, sort) {
+	using Node = ForwardListNode<int>;
+	Node nodes[5]{5,4,3,2,1};
+	Node *p = nullptr;
+	list::sort(p, std::less<int>());
+	EXPECT_EQ(nullptr, p);
+	p = &nodes[0];
+	EXPECT_EQ(p, list::sort(p, std::less<int>()));
+	p->next = &nodes[1];
+	p->next->next = &nodes[2];
+	p->next->next->next = &nodes[3];
+	p->next->next->next->next = &nodes[4];
+	auto sorted = list::sort(p, std::less<int>());
+	EXPECT_EQ(1, sorted->value);
 }
