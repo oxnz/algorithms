@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <gtest/gtest.h>
+#include <unordered_set>
 #include "sparse_set.h"
 
 using namespace std;
@@ -74,36 +75,43 @@ TEST(sparse_set, empty) {
     EXPECT_TRUE(s.empty());
 }
 
-TEST(sparse_set, sparse_set) {
-	int sep[] = {8, 9, 3, 2};
+TEST(sparse_set, for_each) {
+    std::unordered_set<int> sep = {8, 9, 3, 2};
     m::sparse_set s(10);
-    std::cout << s << "\n";
+    for (auto i : sep) s.insert(i);
+    std::unordered_set<int> vals;
+    s.foreach([&vals](int n)->void * { vals.insert(n); return 0; });
+    EXPECT_EQ(sep, vals);
+}
+
+TEST(sparse_set, io) {
+	std::unordered_set<int> sep = {8, 9, 3, 2};
+    m::sparse_set s(10);
 	for (int n : sep) {
-		printf("contain %d = %s\n", n, s.contain(n) ? "yes" : "no");
-		printf("insert %d %s\n", n, s.insert(n) ? "success" : "failure");
-		printf("contain %d = %s\n", n, s.contain(n) ? "yes" : "no");
+        EXPECT_FALSE(s.contain(n));
+        EXPECT_TRUE(s.insert(n));
+        EXPECT_TRUE(s.contain(n));
 	}
-    std::cout << s << "\n";
     for (int i = 0; i < 10; ++i) {
-		printf("contain %d = %s\n", i, s.contain(i) ? "yes" : "no");
-	}
-	s.foreach([](int n)->void * { printf("[%d]", n); return 0; });
-	putchar('\n');
-	s.remove(2);
-	s.remove(3);
-	for (int i = 0; i < 10; ++i) {
-		printf("contain %d = %s\n", i, s.contain(i) ? "yes" : "no");
-	}
+        if (sep.count(i)) EXPECT_TRUE(s.contain(i));
+        else EXPECT_FALSE(s.contain(i));
+    }
+}
+
+TEST(sparse_set, op) {
+    std::unordered_set<int> sep = {8, 9, 3, 2};
+    m::sparse_set s(10);
+    for (auto i : sep) s.insert(i);
+    s.remove(2);
+    EXPECT_FALSE(s.contain(2));
+    s.remove(3);
+    EXPECT_FALSE(s.contain(3));
 	s.clear();
-    std::cout << s << "\n";
+    EXPECT_FALSE(s.contain(8));
     s.insert(3);
+    EXPECT_TRUE(s.contain(3));
 	s.insert(7);
+    EXPECT_TRUE(s.contain(7));
 	s.insert(4);
-    std::cout << s << "\n";
-//    s.xchg(3, 7);
-	printf("after swap(3, 7):\n");
-    std::cout << s << "\n";
-//    s.xchg(3, 4);
-	printf("after swap(3, 4):\n");
-    std::cout << s << "\n";
+    EXPECT_TRUE(s.contain(4));
 }

@@ -1,6 +1,9 @@
 project(adt)
 
 add_library(${PROJECT_NAME} SHARED
+    "btree.cpp"
+    "forward_list.cpp"
+    "rand.cpp"
     "static_vector.cpp"
     "disjoint_set.cpp"
     "sparse_set.cpp"
@@ -9,12 +12,12 @@ add_library(${PROJECT_NAME} SHARED
     "algo.cpp"
     "bitvec.cpp"
     "tree.cpp"
+    "hash.cpp"
     "heap.cpp"
     "arr.cpp"
     "list.cpp"
     "trie.cpp"
     "queue.cpp"
-    "hash.cpp"
     "basic.cpp")
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} pthread)

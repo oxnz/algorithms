@@ -31,7 +31,7 @@ double sequence_pi(size_t nloop) {
 }
 
 double openmp_pi(size_t nloop) {
-    const size_t nbatch = 1<<3;
+    const size_t nbatch = std::thread::hardware_concurrency();
     nloop /= nbatch;
     double pi = 0.0;
 #pragma omp parallel for shared(nloop, nbatch) reduction(+:pi)
@@ -59,13 +59,13 @@ TEST(calc_pi, sequential) {
 }
 
 TEST(calc_pi, openmp_pi) {
-    auto pi = openmp_pi(1<<10);
+    auto pi = threaded_pi(std::thread::hardware_concurrency()<<10);
     EXPECT_GT(pi, 3.0);
     EXPECT_LT(pi, 3.2);
 }
 
 TEST(calc_pi, threaded_pi) {
-    auto pi = threaded_pi(1<<10);
+    auto pi = threaded_pi(std::thread::hardware_concurrency()<<10);
     EXPECT_GT(pi, 3.0);
     EXPECT_LT(pi, 3.2);
 }

@@ -20,63 +20,32 @@
  *
  */
 
-#include <iostream>
-#include <set>
-#include <vector>
+#include "leetcode.hpp"
 
 using namespace std;
 
-
 class Solution {
 public:
-	vector<int> singleNumber(vector<int>& nums) {
-		int sum;
-		for (int i : nums)
-			sum ^= i;
-		int bit = 0;
-		while (sum > 0) {
-			if (((sum >> bit) & 1) != 0)
-				break;
-			else
-				++bit;
-		}
-		int sep = 1 << bit;
-		cout << "sep = " << sep << ", bit = " << bit << endl;
-		set<int> a, b;
-		for (int i : nums) {
-			if ((i & sep) == 0) {
-				a.insert(i);
-				cout << "a:" << i << endl;
-			} else {
-				b.insert(i);
-				cout << "b:" << i << endl;
-			}
-		}
-
-		vector<int> ret;
-		int n = 0;
-		for (int i : a)
-			n ^= i;
-		ret.push_back(n);
-		n = 0;
-		for (int i : b)
-			n ^= i;
-		ret.push_back(n);
-		return ret;
+    vector<int> singleNumber(vector<int>& nums) {
+        int sum = std::reduce(nums.begin(), nums.end(), 0, std::bit_xor());
+        int pivot = anybit(sum);
+        int a = 0, b = 0;
+        for (int i : nums)
+            if ((i & pivot) == 0) a ^= i; else b ^= i;
+        return {a, b};
 	}
 };
 
-int main(int argc, char* argv[]) {
-	Solution sol;
-	vector<int> v;
-	v.push_back(1);
-	v.push_back(2);
-	v.push_back(1);
-	v.push_back(3);
-	v.push_back(2);
-	v.push_back(5);
-	vector<int> r = sol.singleNumber(v);
-	for (int i : r)
-		cout << i << endl;
-	return 0;
+TEST(single_number_iii, solution) {
+    std::string input = "[1,2,1,3,2,5]";
+    std::string output = "[3,5]";
+    std::vector<int> iv;
+    std::istringstream iss(input);
+    iss >> iv;
+    Solution sol;
+    auto ov = sol.singleNumber(iv);
+    EXPECT_EQ(ov.size(), 2);
+    if (ov[0] > ov[1]) std::swap(ov[0], ov[1]);
+    EXPECT_EQ(ov[0], 3);
+    EXPECT_EQ(ov[1], 5);
 }

@@ -1,6 +1,4 @@
-#include <random>
-#include <iostream>
-#include <gtest/gtest.h>
+#include "common.h"
 
 using namespace std;
 
@@ -122,3 +120,12 @@ TEST(heapsort, heapsort) {
 	}
 }
 
+template <typename T, typename Container = std::vector<T>>
+struct _heapsort {
+    using iterator = typename Container::iterator;
+    void operator()(iterator first, iterator last) {
+        heap_sort(first, last);
+    }
+};
+
+BENCHMARK_TEMPLATE(BM_sorting, _heapsort<int>)->Range(8, 1<<20);

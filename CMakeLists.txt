@@ -11,9 +11,25 @@ project(algorithms
     )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 cmake_print_variables(PROJECT_NAME)
 cmake_print_variables(CONFIGURATION)
 
+find_package(Doxygen)
+option(BUILD_DOCUMENTATION "documentation" ${DOXYGEN_FOUND})
+if(BUILD_DOCUMENTATION)
+    if(NOT DOXYGEN_FOUND)
+        message(FATAL_ERROR "Doxygen is required to build the documentation.")
+    endif()
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/doc/doxygen.conf.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf)
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    add_custom_target( documentation
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM )
+endif()
 message(STATUS "project: ${PROJECT_NAME}")
 message(DEBUG "configuration: ${CONFIGURATION}")
 message(DEBUG "")
@@ -31,8 +47,23 @@ include_directories(
     )
 link_directories(/usr/local/lib)
 
+# AddressSanitize
+set(CMAKE_C_FLAGS_ASAN
+    "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
+    CACHE STRING "Flags used by the C compiler during AddressSanitizer builds."
+    FORCE)
+set(CMAKE_CXX_FLAGS_ASAN
+    "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
+    CACHE STRING "Flags used by the C++ compiler during AddressSanitizer builds."
+    FORCE)
+set(CMAKE_XCODE_GENERATE_SCHEME ON)
+set(CMAKE_XCODE_SCHEME_ADDRESS_SANITIZER ON)
+set(CMAKE_XCODE_SCHEME_ADDRESS_SANITIZER_USE_AFTER_RETURN ON)
+
+add_subdirectory(leetcode)
 add_subdirectory(sorting)
 add_subdirectory(graph)
+add_subdirectory(image)
 add_subdirectory(lang)
 add_subdirectory(adt)
 add_subdirectory(exp)
