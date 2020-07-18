@@ -475,6 +475,41 @@ void echo(const Node<T>* root) {
 	}
 }
 
+template <typename T>
+class binary_indexed_tree {
+    using size_type = size_t;
+public:
+    binary_indexed_tree(const std::vector<T>& v) {
+        m_index.emplace_back();
+        for (const auto& e : v) m_index.push_back(e);
+        for (size_type i = 1; i < m_index.size(); ++i) {
+            size_type idx = i + (i & -i);
+            if (idx < m_index.size()) m_index[idx] += m_index[i];
+        }
+    }
+    void update(size_type idx, const T& delta) {
+        idx += 1;
+        while (idx < m_index.size()) {
+            m_index[idx] += delta;
+            idx += idx & (idx & -idx);
+        }
+    }
+    T prefix_sum(size_type idx) {
+        idx += 1;
+        T r = 0;
+        while (idx > 0) {
+            r += m_index[idx];
+            idx -= idx & -idx;
+        }
+        return r;
+    }
+    T range_sum(size_type idx_from, size_type idx_to) {
+        return prefix_sum(idx_to) - prefix_sum(idx_from-1);
+    }
+private:
+    std::vector<T> m_index;
+};
+
 
 /*
 struct SegmentTree {
