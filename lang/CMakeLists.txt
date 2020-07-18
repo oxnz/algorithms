@@ -9,6 +9,8 @@ add_executable(${PROJECT_NAME}
 	"concept.cpp"
 	"str.cpp"
 	"template.cpp"
+	"misc.cpp"
+	"iter.cpp"
 	)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} pthread)

@@ -39,15 +39,16 @@ public:
 	}
 	friend ostream& operator<<(ostream& os, const T& v) {
 		auto s = v.str();
-		os.write(s.c_str(), s.size());
+        os.write(s.c_str(), s.size());
 		return os;
 	}
 private:
 	int m_index;
 };
 
-TEST(heap, heap) {/*
-	heap<T> h;
+TEST(heap, heap) {
+/*
+	heap::heap<T> h;
 	vector<T> v;
 	const T t(233);
 	cout << "--------\n";

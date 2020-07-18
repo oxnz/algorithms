@@ -1,4 +1,5 @@
 project(adt)
+<<<<<<< HEAD
 
 add_library(${PROJECT_NAME} SHARED
     "btree.cpp"
@@ -20,6 +21,21 @@ add_library(${PROJECT_NAME} SHARED
     "queue.cpp"
     "basic.cpp")
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+=======
+set(CMAKE_CXX_STANDARD 17)
+link_directories(/usr/local/lib)
+include_directories(/usr/local/include)
+add_executable(${PROJECT_NAME}
+	"alg.cpp"
+	"tree.cpp"
+	"heap.cpp"
+	"arr.cpp"
+	"list.cpp"
+	"queue.cpp"
+	"hash.cpp"
+	"random.cpp"
+	"basic.cpp")
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4
 target_link_libraries(${PROJECT_NAME} pthread)
 target_link_libraries(${PROJECT_NAME} GTest::GTest GTest::Main)
 target_link_libraries(${PROJECT_NAME} gmock)

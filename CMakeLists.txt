@@ -68,6 +68,7 @@ add_subdirectory(lang)
 add_subdirectory(adt)
 add_subdirectory(exp)
 add_subdirectory(mp)
+<<<<<<< HEAD
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
@@ -115,3 +116,7 @@ set(CPACK_SOURCE_IGNORE_FILES
     /\\\\.DS_Store
 )
 include(CPack)
+=======
+add_subdirectory(order)
+add_subdirectory(spatial)
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4

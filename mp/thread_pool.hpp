@@ -19,6 +19,7 @@
 #include <queue>
 
 namespace multiprocessing {
+<<<<<<< HEAD
 template<typename T>
 class concurrent_queue {
 public:
@@ -58,6 +59,65 @@ class thread_pool {
 
 public:
     thread_pool(size_type nworker = std::thread::hardware_concurrency())
+=======
+	template <typename T>
+	class concurrent_queue {
+	public:
+		concurrent_queue() {}
+        concurrent_queue(const concurrent_queue& rhs) {
+            std::lock_guard<std::mutex> lock(rhs.m_mutex);
+            m_queue = rhs.m_queue;
+        }
+		concurrent_queue& operator=(const concurrent_queue&) = delete;
+		
+		void push(T val) {
+			std::lock_guard<std::mutex> lock(m_mutex);
+			m_queue.push(std::move(val));
+            m_cond_v.notify_one();
+		}
+        void pop(T& val) {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            m_cond_v.wait(lock, [this] { return !m_queue.empty(); });
+			val = std::move(m_queue.front());
+            m_queue.pop();
+        }
+        std::shared_ptr<T> pop() {
+            std::unique_lock<std::mutex> lock(m_mutex);
+            m_cond_v.wait(lock, [this] { return !m_queue.empty(); });
+			auto ptr = std::make_shared(std::move(m_queue.front()));
+            m_queue.pop();
+            return ptr;
+        }
+        bool try_pop(T& val) {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            if (m_queue.empty()) return false;
+			val = std::move(m_queue.front());
+            m_queue.pop();
+            return true;
+        }
+        std::shared_ptr<T> try_pop() {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            if (m_queue.empty()) return {};
+			auto ptr = std::make_shared(std::move(m_queue.front()));
+            m_queue.pop();
+            return ptr;
+        }
+		bool empty() const {
+			std::lock_guard<std::mutex> lock(m_mutex);
+			return m_queue.empty();
+		}
+	private:
+		mutable std::mutex m_mutex;
+        std::condition_variable m_cond_v;
+		std::queue<T> m_queue;
+	};
+	
+	class thread_pool {
+		using size_type = std::vector<std::thread>::size_type;
+		using lock_type = std::unique_lock<std::mutex>;
+	public:
+		thread_pool(size_type nworker = std::thread::hardware_concurrency())
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4
         : m_tasks(), m_mutex(), m_cond_v(), m_workers(), m_cmd(command::run)
     {
         if (0 == nworker)

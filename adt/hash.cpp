@@ -1,41 +1,32 @@
 //
 //  hash.cpp
-//  Interview
+//  algorithms
 //
-//  Created by 云心逸 on 2019/1/3.
-//  Copyright © 2019 Errpro,Inc. All rights reserved.
+//  Created by 云心逸 on 2019/1/9.
+//  Copyright © 2019 云心逸. All rights reserved.
 //
-
-#include "hash.hpp"
 
 #include <gtest/gtest.h>
 #include <unordered_map>
+#include "hash.hpp"
 
 using namespace std;
 
-class T {
-public:
-	T(const string& name) : m_name(name) {}
-	friend struct hash<T>;
-	bool operator==(const T& rhs) const {
-		return this->m_name == rhs.m_name;
-	}
-private:
-	string m_name;
+TEST(unordered_multimap, unordered_multimap) {
+std::unordered_multimap<std::string,std::string> myumm = {
+	{"John","Middle East"},
+	{"John","Africa"},
+	{"Adam","Europe"},
+	{"Bill","Norh-America"}
 };
 
-template <>
-struct hash<T> {
-	size_t operator()(const T& v) const {
-		return std::hash<string>()(v.m_name);
+for (auto& x: myumm) {
+	std::cout << "Element [" << x.first << ":" << x.second << "]";
+	std::cout << " is in bucket #" << myumm.bucket (x.first) << std::endl;
 	}
-};
-
-TEST(hash, hash) {
-	unordered_map<T, int> m;
-	for (int i = 0; i < 4; ++i) {
-		m[T(to_string(i))] = i;
+	for (size_t i = 0; i < myumm.bucket_count(); ++i) {
+		cout << "bucket " << i << ": ";
+		for_each(myumm.begin(i), myumm.end(i), [](const pair<string, string>& p) { cout << p.second << ":"; });
 	}
-	EXPECT_EQ(m[T("1")], 1);
-	EXPECT_EQ(m[T("2")], 2);
+	cout << "\n";
 }

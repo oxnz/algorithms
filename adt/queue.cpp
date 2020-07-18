@@ -22,33 +22,14 @@
 
 #include <iostream>
 #include <stack>
-
 #include <gtest/gtest.h>
+
+#include "queue.hpp"
 
 using namespace std;
 
-template<typename T>
-class Q {
-public:
-	void enq(T v) { m_in_stack.push(v); }
-	T deq() {
-		if (m_out_stack.empty())
-			while (!m_in_stack.empty()) {
-				m_out_stack.push(m_in_stack.top());
-				m_in_stack.pop();
-			}
-		T v = m_out_stack.top();
-		m_out_stack.pop();
-		return v;
-	}
-	bool empty() const { return m_in_stack.empty() && m_out_stack.empty(); }
-private:
-	std::stack<T> m_in_stack; // in stack
-	std::stack<T> m_out_stack; // out stack
-};
-
-TEST(queue, queue) {
-	Q<int> q;
+TEST(queue, Q) {
+	queue::Q<int> q;
 	EXPECT_TRUE(q.empty()) << "queue not empty";
 	q.enq(1);
 	EXPECT_FALSE(q.empty()) << "queue empty";
@@ -56,4 +37,46 @@ TEST(queue, queue) {
 	q.enq(3);
 	q.enq(4);
 	q.enq(5);
+}
+
+TEST(queue, queue) {
+	queue::queue<int> q(3);
+	EXPECT_TRUE(q.empty());
+	EXPECT_EQ(q.capacity(), 3);
+	q.enq(1);
+	EXPECT_EQ(q.back(), 1);
+	EXPECT_EQ(q.front(), 1);
+	EXPECT_EQ(q.size(), 1);
+	EXPECT_FALSE(q.empty());
+	q.enq(2);
+	EXPECT_EQ(q.front(), 1);
+	EXPECT_EQ(q.back(), 2);
+	EXPECT_EQ(q.size(), 2);
+	q.enq(3);
+	EXPECT_EQ(q.size(), q.capacity());
+	EXPECT_EQ(q.size(), 3);
+	EXPECT_THROW(q.enq(4), std::runtime_error);
+	EXPECT_EQ(1, q.front());
+	EXPECT_EQ(3, q.back());
+	q.deq();
+	EXPECT_EQ(q.size(), 2);
+	EXPECT_EQ(2, q.front());
+	EXPECT_EQ(3, q.back());
+	q.enq(4);
+	EXPECT_EQ(2, q.front());
+	EXPECT_EQ(3, q.size());
+	EXPECT_EQ(4, q.back());
+	q.deq();
+	EXPECT_EQ(3, q.front());
+	EXPECT_EQ(4, q.back());
+	EXPECT_EQ(q.size(), 2);
+	EXPECT_FALSE(q.empty());
+	q.enq(5);
+	EXPECT_EQ(5, q.back());
+	q.deq();
+	q.deq();
+	q.deq();
+	EXPECT_EQ(q.size(), 0);
+	EXPECT_TRUE(q.empty());
+	EXPECT_THROW(q.deq(), std::runtime_error);
 }
