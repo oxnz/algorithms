@@ -1,16 +1,20 @@
-cmake_minimum_required(VERSION 2.8)
 project(lang)
-set(CMAKE_CXX_STANDARD 17)
-link_directories(/usr/local/lib)
-include_directories(/usr/local/include)
+
 add_executable(${PROJECT_NAME}
+    "assert.cpp"
+    "ipv4_addr.cpp"
+    "uri.cpp"
+    "scope.cpp"
+    "mem.cpp"
 	"concept.cpp"
 	"str.cpp"
 	"template.cpp"
 	"misc.cpp"
 	"iter.cpp"
 	)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_link_libraries(${PROJECT_NAME} pthread)
-target_link_libraries(${PROJECT_NAME} gtest)
+target_link_libraries(${PROJECT_NAME} GTest::GTest GTest::Main)
 target_link_libraries(${PROJECT_NAME} gmock)
 target_link_libraries(${PROJECT_NAME} benchmark)
+gtest_discover_tests(${PROJECT_NAME} WORKING_DIRECTORY ${PROJECT_DIR})

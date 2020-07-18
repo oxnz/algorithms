@@ -2,7 +2,12 @@
 #include <stack>
 #include <queue>
 
+<<<<<<< HEAD
+#include "adt.h"
+#include "tree.h"
+=======
 #include "adt.hpp"
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4
 
 #include <gtest/gtest.h>
 
@@ -197,3 +202,14 @@ TEST(trie, trie) {
 	EXPECT_EQ(t.search("w"), 1) << "search(w) != 1";
 	EXPECT_EQ(t.search("o"), 0) << "search(o) != 0";
 }
+<<<<<<< HEAD
+*/
+
+TEST(binary_tree, insert) {
+    binary_tree<int> t;
+    for (int i = 0; i < 10; ++i)
+        t.insert(i);
+    EXPECT_EQ(t.size(), 10);
+}
+=======
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4

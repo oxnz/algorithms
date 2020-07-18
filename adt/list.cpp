@@ -20,10 +20,61 @@
  *
  */
 
+<<<<<<< HEAD
+=======
 #include <iostream>
 #include "adt.hpp"
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4
 #include <gtest/gtest.h>
+#include "list.h"
 
+<<<<<<< HEAD
+TEST(list, push_back) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.push_back(i);
+        EXPECT_EQ(v.back(), i);
+    }
+    EXPECT_EQ(v.size(), n);
+}
+
+TEST(list, push_front) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.push_front(i);
+        EXPECT_EQ(v.front(), i);
+    }
+    EXPECT_EQ(v.size(), n);
+}
+
+TEST(list, insert) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.insert(v.end(), i);
+        EXPECT_EQ(v.back(), i);
+    }
+}
+
+TEST(list, erase) {
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) v.push_back(i);
+    for (int i = 0; i < n; ++i) v.erase(v.begin());
+    EXPECT_EQ(v.size(), 0);
+}
+
+TEST(list, r_iter) {
+    return;
+    m::list<int> v;
+    size_t n = 10;
+    for (int i = 0; i < n; ++i) {
+        v.push_back(i);
+        EXPECT_EQ(*(v.crbegin()), i);
+    }
+=======
 using namespace list;
 
 int test_reverse() {
@@ -62,6 +113,7 @@ TEST(list, reverse2) {
 	EXPECT_EQ(i, 5);
 	lst = nullptr;
 	EXPECT_EQ(nullptr, reverse2<int>(lst));
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4
 }
 
 TEST(list, sort) {

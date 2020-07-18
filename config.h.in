@@ -1,0 +1,12 @@
+#ifndef __CONFIG_H
+#define __CONFIG_H
+
+inline constexpr int ALGO_VERSION_MAJOR = @PROJECT_VERSION_MAJOR@;
+inline constexpr int ALGO_VERSION_MINOR = @PROJECT_VERSION_MINOR@;
+inline constexpr int ALGO_VERSION_PATCH = @PROJECT_VERSION_PATCH@;
+inline constexpr int ALGO_VERSION_TWEAK = @PROJECT_VERSION_TWEAK@;
+inline constexpr const char* const ALGO_VERSION = "@PROJECT_VERSION@";
+
+#cmakedefine HAVE_OMP_H
+
+#endif//__CONFIG_H

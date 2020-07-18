@@ -1,30 +1,41 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <unordered_map>
-#include <map>
-#include <string>
-#include <random>
-#include <deque>
-#include <list>
-#include <forward_list>
-#include <utility>
+/*
+ * Filename:	main.cpp
+ *
+ * Author:		Oxnz
+ * Email:		yunxinyi@gmail.com
+ * Created:		2020-02-13 00:54:42 CST
+ * Last-update:	2020-02-13 00:54:42 CST
+ * Description: anchor
+ *
+ * Version:		0.0.1
+ * Revision:	[NONE]
+ * Revision history:	[NONE]
+ * Date Author Remarks:	[NONE]
+ *
+ * License: 
+ * Copyright (c) 2020 Oxnz
+ *
+ * Distributed under terms of the [LICENSE] license.
+ * [license]
+ *
+ */
 
-#include <gtest/gtest.h>
+#include <iostream>
+#include "config.h"
 
 using namespace std;
 
-template<typename ForwardIterator>
-void echo(ForwardIterator first, ForwardIterator last) {
-	std::copy(first, last, std::ostream_iterator<typename iterator_traits<ForwardIterator>::value_type>(std::cout, ", "));
-	std::cout << "\n";
+int main(int argc, char *argv[]) {
+    std::cout << argv[0] << ":";
+    for (int i = 1; i < argc; ++i)
+        std::cout << " " << argv[i];
+    std::cout << "\n";
+
+    return 0;
 }
 
-template<typename Container>
-void echo(Container container) {
-	echo(container.begin(), container.end());
-}
-
+<<<<<<< HEAD
+=======
 class MinimalistPrinter : public ::testing::EmptyTestEventListener {
 	// Called before a test starts.
 	virtual void OnTestStart(const ::testing::TestInfo& test_info) {
@@ -57,3 +68,4 @@ class MinimalistPrinter : public ::testing::EmptyTestEventListener {
 ////	listeners.Append(new MinimalistPrinter);
 //	return RUN_ALL_TESTS();
 //}
+>>>>>>> ab703f00fc1e1002e956538795856139bd1ae5e4

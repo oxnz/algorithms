@@ -21,6 +21,7 @@
  */
 
 #include <iostream>
+#include <gtest/gtest.h>
 
 using namespace std;
 
@@ -49,16 +50,14 @@ void psubset(int *a, bool *mask, int n) {
 	cout << "]" << endl;
 }
 
-int main(int argc, char *argv[]) {
+TEST(subsets, solution) {
 	int a[] = {3, 1, 2};
 	int n = sizeof(a)/sizeof(a[0]);
 	bool* mask = new bool[n];
 	for (int i = 0; i < n; ++i)
 		mask[i] = 0;
-	psubset(a, mask, n);
-	while (next(mask, n))
-		psubset(a, mask, n);
+//	psubset(a, mask, n);
+//	while (next(mask, n))
+//		psubset(a, mask, n);
 	delete[] mask;
-
-	return 0;
 }
